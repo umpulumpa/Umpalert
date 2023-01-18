@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "discord.js": "^14.7.1",
+    "fs": "^0.0.1-security",
+    "node-cache": "^5.1.2"
+  }
+}

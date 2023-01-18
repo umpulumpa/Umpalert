@@ -1,0 +1,9 @@
+{
+    "userid": {
+        "id": "uuid",
+        "userid": "string",
+        "message": "string",
+        "time_of_event": "date",
+        "time_of_reminder": "date"
+    }
+}
