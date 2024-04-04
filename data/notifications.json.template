@@ -1,8 +1,0 @@
-{
-    "userid": {
-        "id": "uuid",
-        "userid": "string",
-        "message": "string",
-        "time_of_reminder": "date"
-    }
-}

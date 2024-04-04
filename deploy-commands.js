@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord.js');
+const { Routes, SlashCommandBuilder } = require('discord.js');
 const { clientId, token } = require('./config.json');
 
 const commands = [];
@@ -11,7 +11,11 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
     const command = require(filePath);
-    commands.push(command.data.toJSON());
+    if (command.data instanceof SlashCommandBuilder) {
+		commands.push(command.data.toJSON())
+	} else {
+		commands.push(command.data)
+	}
 }
 
 const rest = new REST({ version: '10' }).setToken(token);
