@@ -1,8 +1,6 @@
 
-const { EmbedBuilder } = require('discord.js');
 const { getDbUserId, getRemindersByUserId, deleteReminder } = require('../functions/database.js');
 
-const Frequencies = require('../types/frequencies.js');
 
 
 

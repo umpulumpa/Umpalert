@@ -1,6 +1,3 @@
-const {
-    SlashCommandBuilder
-} = require('discord.js');
 const { getDbUserId, addReminder } = require('../functions/database.js');
 
 const Frequencies = require('../types/frequencies.js');

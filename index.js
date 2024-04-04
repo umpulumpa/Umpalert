@@ -3,7 +3,6 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits, SlashCommandBuilder } = require('discord.js');
 const { token } = require('./config.json');
-const { triggerReminder } = require('./functions/database');
 
 
 // Create a new client instance
@@ -16,7 +15,6 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 const eventsPath = path.join(__dirname, 'events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
-let voiceChannelArray = {}
 client.commandArray = []
 for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
