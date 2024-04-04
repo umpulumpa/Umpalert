@@ -38,7 +38,6 @@ module.exports = {
                 await user.send(formatReminder(user, row))
             });
             
-            console.log("Reminders:", rows);
         }).catch(err => {
             console.error("Error:", err);
         }); 
