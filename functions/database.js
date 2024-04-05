@@ -28,9 +28,11 @@ function getDbUserId(discordUserId) {
 }
 
 function addReminder(userId, text, frequencyId, triggerTime) {
+    const utcTriggerTime = new Date(triggerTime).toISOString();
+
     return new Promise((resolve, reject) => {
         db.run("INSERT INTO reminders (user_id, text, frequency_id, trigger_time) VALUES (?, ?, ?, ?)",
-            userId, text, frequencyId, triggerTime, (err) => {
+            userId, text, frequencyId, utcTriggerTime, (err) => {
                 if (err) {
                     resolve(false); // Resolve the promise with false when an error occurs
                 } else {
@@ -82,8 +84,14 @@ function getRemindersToTrigger() {
                 reject(err);
             } else {
                 const filteredReminders = rows.filter(reminder => {
-                    const triggerTime = new Date(reminder.trigger_time);
+                    const triggerTime = new Date(reminder.trigger_time); // Convert trigger time to local time
                     const lastTriggeredDate = reminder.last_triggered_at ? new Date(reminder.last_triggered_at) : null;
+
+                    // Adjust triggerTime and lastTriggeredDate to local time
+                    triggerTime.setMinutes(triggerTime.getMinutes() + triggerTime.getTimezoneOffset());
+                    if (lastTriggeredDate) {
+                        lastTriggeredDate.setMinutes(lastTriggeredDate.getMinutes() + lastTriggeredDate.getTimezoneOffset());
+                    }
 
                     if (reminder.frequency_id === Frequencies.DAILY.id || reminder.frequency_id === Frequencies.ONE_TIME.id) { // Daily
                         // Check if the trigger time has passed today and if it hasn't been triggered yet today
@@ -107,6 +115,7 @@ function getRemindersToTrigger() {
         });
     });
 }
+
 
 
 function getRemindersByUserId(userId) {

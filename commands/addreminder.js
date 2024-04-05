@@ -2,7 +2,7 @@ const { getDbUserId, addReminder } = require('../functions/database.js');
 
 const Frequencies = require('../types/frequencies.js');
 
-let dateDatesUpdated = new Date("04-04-2024")
+let dateDatesUpdated = new Date()
 
 
 const formattedFrequencyTypes = Frequencies.getAllFrequencyTypes().map(type => ({
@@ -60,8 +60,8 @@ let dates = getDates()
 const time = getTime()
 
 function parseTimeText(date, remindertime) {
-    const remindDate = new Date(date + " " + remindertime)
-    const remindTime = (remindDate.getTime() - new Date().getTime()) / (1000 * 3600)
+    const remindDate = new Date(date + " " + remindertime + " GMT")
+    const remindTime = (remindDate.getTime() - new Date(new Date().toUTCString()).getTime()) / (1000 * 3600)
     if (remindTime > 24) {
         return `Reminding you in ${Math.floor(remindTime/24)} days`
     }
@@ -82,7 +82,7 @@ async function addToReminders(interaction) {
     }
 
     date = date.split("-").reverse().join("-")
-    const time_of_reminder = new Date(date + " " + reminderTime)
+    const time_of_reminder = new Date(date + " " + reminderTime + " GMT")
 
     
     if (await addReminder(await getDbUserId(interaction.user.id), message, frequency, time_of_reminder)) {
