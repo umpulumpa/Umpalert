@@ -59,13 +59,13 @@ function getTime() {
 let dates = getDates()
 const time = getTime()
 
-function parseTimeText(date, remindertime) {
-    const remindDate = new Date(date + " " + remindertime + " GMT")
-    const remindTime = (remindDate.getTime() - new Date(new Date().toUTCString()).getTime()) / (1000 * 3600)
+function parseTimeText(remindertime) {
+    const remindDate = remindertime
+    const remindTime = (remindDate.getTime() - new Date().getTime()) / (1000 * 3600)
     if (remindTime > 24) {
-        return `Reminding you in ${Math.floor(remindTime/24)} days`
+        return `Reminding you in ${Math.floor(remindTime/24)} days\rPlease note that the input time should be in GMT+0`
     }
-    return `Reminding you in ${Math.floor(remindTime)} hours`
+    return `Reminding you in ${Math.floor(remindTime)} hours\rPlease note that the input time should be in GMT+0`
 }
 
 async function addToReminders(interaction) {
@@ -86,7 +86,7 @@ async function addToReminders(interaction) {
 
     
     if (await addReminder(await getDbUserId(interaction.user.id), message, frequency, time_of_reminder)) {
-        return parseTimeText(date, reminderTime)
+        return parseTimeText(time_of_reminder)
     }
     return "Something went wrong"
     
@@ -115,7 +115,7 @@ module.exports = {
             {
                 type: 3,
                 name: 'remindertime',
-                description: 'Hours : Minutes',
+                description: 'Hours : Minutes (TIME IS IN GMT+0)',
                 autocomplete: true,
                 required: true,
             },
