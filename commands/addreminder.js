@@ -63,9 +63,9 @@ function parseTimeText(remindertime) {
     const remindDate = remindertime
     const remindTime = (remindDate.getTime() - new Date().getTime()) / (1000 * 3600)
     if (remindTime > 24) {
-        return `Reminding you in ${Math.floor(remindTime/24)} days\rPlease note that the input time should be in GMT+0`
+        return `Reminding you in ${Math.floor(remindTime/24)} days`
     }
-    return `Reminding you in ${Math.floor(remindTime)} hours\rPlease note that the input time should be in GMT+0`
+    return `Reminding you in ${Math.floor(remindTime)} hours`
 }
 
 async function addToReminders(interaction) {
@@ -119,7 +119,7 @@ module.exports = {
             {
                 type: 3,
                 name: 'remindertime',
-                description: 'Hours : Minutes (TIME IS IN GMT+0)',
+                description: 'Hours : Minutes',
                 autocomplete: true,
                 required: true,
             },

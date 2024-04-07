@@ -27,7 +27,7 @@ module.exports = {
             {
                 type: 3,
                 name: 'reminder',
-                description: 'Hours : Minutes',
+                description: 'Name of the reminder',
                 autocomplete: true,
                 required: true,
             },
