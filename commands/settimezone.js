@@ -57,7 +57,7 @@ module.exports = {
         const focusedOption = interaction.options.getFocused(true);
 
         if (focusedOption.name === 'timezone') {
-            const filtered = timezones.filter(choice => choice.name.toLowerCase().startsWith(focusedOption.value.toLowerCase()));
+            const filtered = timezones.filter(choice => choice.name.toLowerCase().includes(focusedOption.value.toLowerCase()));
             return await interaction.respond(
                 filtered.map(choice => ({
                     name: `${choice.name} - ${choice.gmt_value.toUpperCase()}`,
