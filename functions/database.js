@@ -27,6 +27,56 @@ function getDbUserId(discordUserId) {
     });
 }
 
+function getDbUserById(userId) {
+    return new Promise((resolve, reject) => {
+        // Check if the user exists in the database
+        db.get("SELECT * FROM users WHERE id = ?", [userId], (err, row) => {
+            if (err) {
+                reject(err);
+            } else if (row) {
+                // User exists in the database, return their user ID
+                resolve(row);
+            }
+        });
+    });
+}
+
+function getDbTimeZoneById(timezoneId) {
+    return new Promise((resolve, reject) => {
+        db.get("SELECT * FROM timezones WHERE id = ?", [timezoneId], (err, row) => {
+            if (err) {
+                reject(err);
+            } else if (row) {
+                resolve(row);
+            }
+        });
+    });
+}
+
+function getTimeZones() {
+    return new Promise((resolve, reject) => {
+        db.all("SELECT * FROM timezones", (err, rows) => {
+            if (err) {
+                reject(err);
+            } else if (rows) {
+                resolve(rows);
+            }
+        });
+    });
+}
+
+function setDbUserTimezone(userId, timezoneId) {
+    return new Promise((resolve, reject) => {
+        db.run("UPDATE users SET timezone_id = ? WHERE id = ?", [timezoneId, userId], function(err) {
+            if (err) {
+                resolve(false);
+            } else {
+                resolve(true); // Return true if the update was successful
+            }
+        });
+    });
+}
+
 function addReminder(userId, text, frequencyId, triggerTime) {
     const utcTriggerTime = new Date(triggerTime).toISOString();
 
@@ -137,4 +187,4 @@ process.on('exit', () => {
     db.close();
 });
 
-module.exports = { getDbUserId, addReminder, triggerReminder, deleteReminder, getRemindersToTrigger, getRemindersByUserId };
+module.exports = { getDbUserId, getDbUserById, getDbTimeZoneById, getTimeZones, setDbUserTimezone, addReminder, triggerReminder, deleteReminder, getRemindersToTrigger, getRemindersByUserId };

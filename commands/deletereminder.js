@@ -1,10 +1,6 @@
 
 const { getDbUserId, getRemindersByUserId, deleteReminder } = require('../functions/database.js');
 
-
-
-
-
 async function deleteReminderFromDb(interaction) {
     const selectedReminder = interaction.options.getString("reminder")
     const reminders = await getRemindersByUserId(await getDbUserId(interaction.user.id))

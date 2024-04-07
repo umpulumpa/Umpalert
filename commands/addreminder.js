@@ -1,4 +1,4 @@
-const { getDbUserId, addReminder } = require('../functions/database.js');
+const { getDbUserId, addReminder, getDbUserById, getDbTimeZoneById } = require('../functions/database.js');
 
 const Frequencies = require('../types/frequencies.js');
 
@@ -81,11 +81,15 @@ async function addToReminders(interaction) {
         return "Invalid time. Please choose one of the suggested times.";
     }
 
+    const user = await getDbUserById(await getDbUserId(interaction.user.id))
+    if (user.timezone_id == null) {
+        return "Please set your timezone first using /settimezone"
+    }
+    const timezone = await getDbTimeZoneById(user.timezone_id)
     date = date.split("-").reverse().join("-")
-    const time_of_reminder = new Date(date + " " + reminderTime + " GMT")
-
+    const time_of_reminder = new Date(`${date} ${reminderTime} ${timezone.gmt_value}`)
     
-    if (await addReminder(await getDbUserId(interaction.user.id), message, frequency, time_of_reminder)) {
+    if (await addReminder(user.id, message, frequency, time_of_reminder)) {
         return parseTimeText(time_of_reminder)
     }
     return "Something went wrong"
