@@ -147,8 +147,7 @@ function getRemindersToTrigger() {
                         const triggerDayOfMonth = triggerTime.getDate();
                         const triggerMonthOfYear = triggerTime.getMonth();
                         return (currentHour >= triggerTime.getHours() && currentMinute >= triggerTime.getMinutes()) && (currentDate.getDate() === triggerDayOfMonth)  && (currentDate.getMonth() === triggerMonthOfYear) && (!lastTriggeredDate || !isSameDate(lastTriggeredDate, currentDate));;
-                    }
-                    if (reminder.frequency_id === Frequencies.DAILY.id || reminder.frequency_id === Frequencies.ONE_TIME.id) { // Daily
+                    }else if (reminder.frequency_id === Frequencies.DAILY.id || reminder.frequency_id === Frequencies.ONE_TIME.id) { // Daily
                         // Check if the trigger time has passed today and if it hasn't been triggered yet today
                         return (currentHour >= triggerTime.getHours() && currentMinute >= triggerTime.getMinutes()) && (!lastTriggeredDate || !isSameDate(lastTriggeredDate, currentDate));
                     } else if (reminder.frequency_id === Frequencies.WEEKLY.id) { // Weekly
