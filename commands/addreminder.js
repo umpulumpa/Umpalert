@@ -140,7 +140,7 @@ module.exports = {
         const focusedOption = interaction.options.getFocused(true);
 
         if (focusedOption.name === 'date') {
-            if (dateDatesUpdated.getDate() < new Date().getDate()) {
+            if (dateDatesUpdated.getMonth() < new Date().getMonth() || dateDatesUpdated.getDate() < new Date().getDate()) {
                 dates = getDates()
                 dateDatesUpdated = new Date()
             }
