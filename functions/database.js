@@ -1,7 +1,13 @@
 const sqlite3 = require('sqlite3').verbose();
-const Frequencies = require('../types/frequencies');
+const Frequencies = require('../types/frequencies.js');
 // Connect to the SQLite database
 const db = new sqlite3.Database('./data/umpalert.db');
+
+function isSameDate(date1, date2) {
+    return date1.getFullYear() === date2.getFullYear() &&
+           date1.getMonth() === date2.getMonth() &&
+           date1.getDate() === date2.getDate();
+}
 
 // Function to get the user ID from the database or create a new record if it doesn't exist
 function getDbUserId(discordUserId) {
