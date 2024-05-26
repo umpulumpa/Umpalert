@@ -5,6 +5,8 @@ async function deleteReminderFromDb(interaction) {
     const selectedReminder = interaction.options.getString("reminder")
     const reminders = await getRemindersByUserId(await getDbUserId(interaction.user.id))
     const validReminderIds = reminders.map(reminder => reminder.id);
+    console.log(validReminderIds);
+    console.log(selectedReminder);
     if (!validReminderIds.includes(selectedReminder)) {
         return `Please select a valid reminder`
     }
