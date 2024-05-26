@@ -5,14 +5,12 @@ async function deleteReminderFromDb(interaction) {
     const selectedReminder = interaction.options.getString("reminder")
     const reminders = await getRemindersByUserId(await getDbUserId(interaction.user.id))
     const validReminderIds = reminders.map(reminder => reminder.id);
-    console.log(validReminderIds);
-    console.log(parseInt(selectedReminder));
     if (!validReminderIds.includes(parseInt(selectedReminder))) {
         return `Please select a valid reminder`
     }
 
 
-    if (await deleteReminder(reminders)) {
+    if (await deleteReminder(parseInt(selectedReminder))) {
         return `Reminder deleted successfully`
     }
     return `Something went wrong`
